@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -23,22 +24,114 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pBtn_clicked()
 {
+    if(isopen)
+    {
+        if(!ui->pLineEdit->text().isEmpty())
+        {
+            QString pStr = ui->pLineEdit->text();
+
+            float temp = pStr.toFloat();
+            int tempInt = temp*100;
+            QByteArray sdata="1";
+            QString sdata1 = sdata1.number(tempInt,10);
+            sdata.append(sdata1);
+            mySerialPort->write(sdata,sdata.length());
+
+        }
+        else
+        {
+            ui->statusBar->showMessage("请输入要发送的数据",3000);
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage("请先打开串口",3000);
+    }
 
 }
 
 void MainWindow::on_iBtn_clicked()
 {
+    if(isopen)
+    {
+        if(!ui->iLineEdit->text().isEmpty())
+        {
+            QString iStr = ui->iLineEdit->text();
+            float temp = iStr.toFloat();
+            int tempInt = temp*100;
+            QByteArray sdata="2";
+            QString sdata1 = sdata1.number(tempInt,10);
+            sdata.append(sdata1);
+
+            mySerialPort->write(sdata,sdata.length());
+
+        }
+        else
+        {
+            ui->statusBar->showMessage("请输入要发送的数据",3000);
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage("请先打开串口",3000);
+    }
+
 
 }
 
 void MainWindow::on_dBtn_clicked()
 {
+    if(isopen)
+    {
+        if(!ui->dLineEdit->text().isEmpty())
+        {
+            QString dStr = ui->dLineEdit->text();
+            float temp = dStr.toFloat();
+            int tempInt = temp*100;
+            QByteArray sdata = "3";
+            QString sdata1 = sdata1.number(tempInt,10);
+            sdata.append(sdata1);
+
+            mySerialPort->write(sdata,sdata.length());
+
+        }
+        else
+        {
+            ui->statusBar->showMessage("请输入要发送的数据",3000);
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage("请先打开串口",3000);
+    }
 
 }
 
 
 void MainWindow::on_speedBtn_clicked()
 {
+    if(isopen)
+    {
+        if(!ui->speedLiineEdit->text().isEmpty())
+        {
+
+            QString speedStr = ui->speedLiineEdit->text();
+            QByteArray speedData="";
+            speedData.append("4");  //暂作通信协议
+            speedData.append(speedStr);
+
+            mySerialPort->write(speedData,speedData.length());
+            ui->statusBar->showMessage("Speed setting success",3000);
+        }
+        else
+        {
+            ui->statusBar->showMessage("请输入要设置的速度",3000);
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage("请先打开串口",3000);
+    }
 
 }
 
@@ -85,6 +178,7 @@ void MainWindow::on_sendBtn_clicked()
         {
             QString sendStr = ui->sendLineEdit->text();
             QByteArray sdata;
+            sdata.append("5");
             sdata.append(sendStr);
             mySerialPort->write(sdata,sdata.length());
 
@@ -141,6 +235,16 @@ void MainWindow::setGetValue()
         mySerialPort->setBaudRate(QSerialPort::Baud9600,QSerialPort::AllDirections);
         break;
     case 4:
+        mySerialPort->setBaudRate(QSerialPort::Baud19200,QSerialPort::AllDirections);
+        break;
+    case 5:
+        mySerialPort->setBaudRate(QSerialPort::Baud38400,QSerialPort::AllDirections);
+        break;
+    case 6:
+        mySerialPort->setBaudRate(QSerialPort::Baud57600,QSerialPort::AllDirections);
+        break;
+    case 7:
+        mySerialPort->setBaudRate(QSerialPort::Baud115200,QSerialPort::AllDirections);
         break;
     default :
     //    mySerialPort->setBaudRate(QSerialPort::UnknownBaud,QSerialPort::AllDirections);
@@ -154,26 +258,10 @@ void MainWindow::showData()
     QByteArray showdata = mySerialPort->readAll();
     QString show = "";
     show += QString(showdata);
-    ui->dataShowTB->setText(show+ui->dataShowTB->toPlainText());
+    ui->dataShowTB->setText(ui->dataShowTB->toPlainText()+show);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_dataShowTB_textChanged()            //数据框滚动时，保持数据显示在滚动条的最下方
+{
+    ui->dataShowTB->moveCursor(QTextCursor::End);
+}

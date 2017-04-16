@@ -38,6 +38,8 @@ private slots:
 
     void on_speedBtn_clicked();
 
+    void on_dataShowTB_textChanged();
+
 private:
     Ui::MainWindow *ui;
     QSerialPort *mySerialPort = new QSerialPort;

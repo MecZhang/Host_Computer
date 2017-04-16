@@ -23,6 +23,9 @@
       <height>181</height>
      </rect>
     </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>UpArrowCursor</cursorShape>
+    </property>
    </widget>
    <widget class="QPushButton" name="clearBtn">
     <property name="geometry">
@@ -128,7 +131,7 @@
        <string>D</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="dLiineEdit"/>
+     <widget class="QLineEdit" name="dLineEdit"/>
      <widget class="QPushButton" name="dBtn">
       <property name="text">
        <string>发送</string>
@@ -304,16 +307,6 @@
       <string>波特率</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>10</y>
-      <width>351</width>
-      <height>231</height>
-     </rect>
-    </property>
    </widget>
    <widget class="QFrame" name="frame_3">
     <property name="geometry">
